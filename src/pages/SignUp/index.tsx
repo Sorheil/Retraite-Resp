@@ -19,9 +19,9 @@ function SignUp() {
     const [currentStep, setCurrentStep] = useState(1);
 
     // États persistants pour chaque étape
-    const [stepOneData, setStepOneData] = useState({});
-    const [stepTwoData, setStepTwoData] = useState({});
-    const [stepThreeData, setStepThreeData] = useState({});
+    // const [stepOneData, setStepOneData] = useState({});
+    // const [stepTwoData, setStepTwoData] = useState({});
+    // const [stepThreeData, setStepThreeData] = useState({});
 
     const goToNextStep = () => {
         if (currentStep < steps.length) {
