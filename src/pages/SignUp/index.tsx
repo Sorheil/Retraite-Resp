@@ -1,11 +1,39 @@
-import "./../../App.css"
-import logo from "./../../assets/react.svg"
+import "./../../App.css";
+// images
+import logo from "../../assets/react.svg";
 // components
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import StepOne from "../../components/StepForm/StepOne";
+import StepTwo from "../../components/StepForm/StepTwo";
+import StepThree from "../../components/StepForm/StepThree";
 import Step from "../../components/Step";
 
 function SignUp() {
-    const steps: { step: number, description: string }[] = [{ step: 1, description: "Nom et Prénom" }, { step: 2, description: "Adresse" }, { step: 3, description: "Numero de telephone" }];
+    const steps = [
+        { step: 1, description: "Nom et Prénom" },
+        { step: 2, description: "Adresse" },
+        { step: 3, description: "Numéro de téléphone" }
+    ];
+
+    const [currentStep, setCurrentStep] = useState(1);
+
+    // États persistants pour chaque étape
+    const [stepOneData, setStepOneData] = useState({});
+    const [stepTwoData, setStepTwoData] = useState({});
+    const [stepThreeData, setStepThreeData] = useState({});
+
+    const goToNextStep = () => {
+        if (currentStep < steps.length) {
+            setCurrentStep(currentStep + 1);
+        }
+    };
+
+    const goToPreviousStep = () => {
+        if (currentStep > 1) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
 
     return (
         <>
@@ -14,39 +42,55 @@ function SignUp() {
                     <img src={logo} alt="retraite nom de la retraite" className="mx-auto" />
                 </Link>
                 <h1 className="text-2xl font-bold">Inscription à la Retraite</h1>
-                <p className="mt-2 md:text-md">Remplissez ce formulaire pour vous inscrire et obtenir
-                    un numéro unique qui vous permettra de participer à la Retraite.</p>
+                <p className="mt-2 md:text-md md:w-[600px] md:mx-auto">
+                    Remplissez ce formulaire pour vous inscrire et obtenir un numéro unique qui vous permettra de participer à la Retraite.
+                </p>
             </header>
 
-            <main className=" px-5 md:mx-32 ">
-                {/* steps */}
-                <div className=" flex justify-between gap-5 ">
-                    {steps.map(step => <Step key={`step-${step.step}`} step={step.step} description={step.description} />)}
+            <main className="px-5 flex flex-col items-center">
+                {/* Steps */}
+                <div className="flex justify-between gap-5">
+                    {steps.map((step) => (
+                        <Step key={`step-${step.step}`} step={step.step} description={step.description} currentStep={currentStep} />
+                    ))}
                 </div>
-                {/* forms */}
-                <div className=" border rounded-md mt-10 md:w-min md:mx-auto ">
-                    <h2 className="p-2 border-b-[2px] px-5 py-3">Nom et Prénom</h2>
-                    <form action="/" className=" flex flex-col gap-5 px-5 py-5 md:flex-row md:justify-between ">
-                        <label htmlFor="name" className="md:w-[300px]">
-                            Nom
-                            <input type="text" name="name" id="name" className="w-full border rounded-md p-2 " />
-                        </label>
 
-                        <label htmlFor="prename" className="md:w-[300px]">
-                            Prenom
-                            <input type="text" name="prenama" id="prename" className="w-full border rounded-md p-2 " />
-                        </label>
-                    </form>
+                {/* Form */}
+                <div className="border rounded-md mt-10">
+                    <h2 className="p-2 border-b-[2px] px-5 py-3">{steps[currentStep - 1].description}</h2>
+                    <div>
+                        {/* Garder tous les composants montés et utiliser un affichage conditionnel */}
+                        <div className={currentStep === 1 ? "block" : "hidden"}>
+                            <StepOne />
+                        </div>
+                        <div className={currentStep === 2 ? "block" : "hidden"}>
+                            <StepTwo />
+                        </div>
+                        <div className={currentStep === 3 ? "block" : "hidden"}>
+                            <StepThree />
+                        </div>
+                    </div>
+
                     <div className="flex gap-5 justify-between border-t-[2px] px-5 py-3">
-                        <button className="border rounded-md p-2">Rentrer a l'etape precedente </button>
-                        <button className="border rounded-md p-2">Passer à l'etape suivante </button>
+                        <button
+                            className="border rounded-md p-2 hover:bg-gray-100 focus:bg-gray-100"
+                            onClick={goToPreviousStep}
+                            disabled={currentStep === 1}
+                        >
+                            Rentrer à l'étape précédente
+                        </button>
+                        <button
+                            className="border rounded-md p-2 hover:bg-gray-100 focus:bg-gray-100"
+                            onClick={goToNextStep}
+                            disabled={false}
+                        >
+                            Passer à l'étape suivante
+                        </button>
                     </div>
                 </div>
-
-
             </main>
         </>
-    )
+    );
 }
 
 export default SignUp;
