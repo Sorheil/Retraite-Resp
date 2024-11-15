@@ -17,11 +17,9 @@ function SignUp() {
     ];
 
     const [currentStep, setCurrentStep] = useState(1);
+    const isFirstStep = currentStep === 1;
+    const isLastStep = currentStep === steps.length;
 
-    // États persistants pour chaque étape
-    // const [stepOneData, setStepOneData] = useState({});
-    // const [stepTwoData, setStepTwoData] = useState({});
-    // const [stepThreeData, setStepThreeData] = useState({});
 
     const goToNextStep = () => {
         if (currentStep < steps.length) {
@@ -73,18 +71,18 @@ function SignUp() {
 
                     <div className="flex gap-5 justify-between border-t-[2px] px-5 py-3">
                         <button
-                            className="border rounded-md p-2 hover:bg-gray-100 focus:bg-gray-100"
+                            className={`border rounded-md p-2 hover:bg-gray-100 focus:bg-gray-100 ${isFirstStep ? "hidden" : ""} ${isLastStep ? " hidden" : ""}`}
                             onClick={goToPreviousStep}
                             disabled={currentStep === 1}
                         >
                             Rentrer à l'étape précédente
                         </button>
                         <button
-                            className="border rounded-md p-2 hover:bg-gray-100 focus:bg-gray-100"
+                            className={`border rounded-md p-2 hover:bg-gray-100 focus:bg-gray-100 ${isFirstStep ? " mx-auto" : ""} ${isLastStep ? "hidden" : ""}`}
                             onClick={goToNextStep}
                             disabled={false}
                         >
-                            Passer à l'étape suivante
+                            {currentStep === steps.length - 1 ? "Confirmer son inscription" : "Passer à l'étape suivante"}
                         </button>
                     </div>
                 </div>
