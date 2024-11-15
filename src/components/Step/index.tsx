@@ -5,6 +5,7 @@ interface StepProps {
 }
 
 function Step({ step, description, currentStep }: StepProps) {
+    
     // Définir les classes pour chaque étape
     const stepColors: Record<number, string> = {
         1: 'bg-green-500 text-green-500',
@@ -12,12 +13,12 @@ function Step({ step, description, currentStep }: StepProps) {
         3: 'bg-yellow-500 text-yellow-500',
     };
 
-    // Déterminer si l'étape est la courante
-    const isCurrentStep = step === currentStep;
+    // Déterminer si l'étape est courante ou précédente
+    const isActiveOrBefore = step <= currentStep;
 
-    // Utiliser des classes statiques en fonction de l'étape
-    const stepClass = isCurrentStep ? stepColors[step] : 'bg-gray-300 text-gray-400';
-    const descriptionClass = isCurrentStep
+    // Définir les classes pour l'étape
+    const stepClass = isActiveOrBefore ? stepColors[step] : 'bg-gray-300 text-gray-400';
+    const descriptionClass = isActiveOrBefore
         ? 'font-semibold text-black'
         : 'font-normal text-gray-400';
 

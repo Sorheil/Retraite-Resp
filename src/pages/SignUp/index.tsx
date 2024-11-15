@@ -11,15 +11,14 @@ import Step from "../../components/Step";
 
 function SignUp() {
     const steps = [
-        { step: 1, description: "Nom et Prénom" },
-        { step: 2, description: "Adresse" },
-        { step: 3, description: "Numéro de téléphone" }
+        { step: 1, description: "Nom et Prénom", component: <StepOne /> },
+        { step: 2, description: "Adresse", component: <StepTwo /> },
+        { step: 3, description: "Numéro de téléphone", component: <StepThree /> }
     ];
 
     const [currentStep, setCurrentStep] = useState(1);
     const isFirstStep = currentStep === 1;
     const isLastStep = currentStep === steps.length;
-
 
     const goToNextStep = () => {
         if (currentStep < steps.length) {
@@ -57,32 +56,23 @@ function SignUp() {
                 <div className="border rounded-md mt-10">
                     <h2 className="p-2 border-b-[2px] px-5 py-3">{steps[currentStep - 1].description}</h2>
                     <div>
-                        {/* Garder tous les composants montés et utiliser un affichage conditionnel */}
-                        <div className={currentStep === 1 ? "block" : "hidden"}>
-                            <StepOne />
-                        </div>
-                        <div className={currentStep === 2 ? "block" : "hidden"}>
-                            <StepTwo />
-                        </div>
-                        <div className={currentStep === 3 ? "block" : "hidden"}>
-                            <StepThree />
-                        </div>
+                        {/* Garder tous les composants montés, ne pas les démonter */}
+                        {steps[currentStep - 1].component}
                     </div>
 
                     <div className="flex gap-5 justify-between border-t-[2px] px-5 py-3">
                         <button
-                            className={`border rounded-md p-2 hover:bg-gray-100 focus:bg-gray-100 ${isFirstStep ? "hidden" : ""} ${isLastStep ? " hidden" : ""}`}
+                            className={`border rounded-md p-2 hover:bg-gray-100 focus:bg-gray-100 ${isFirstStep ? "hidden" : ""} ${isLastStep ? "mx-auto" : ""}`}
                             onClick={goToPreviousStep}
-                            disabled={currentStep === 1}
+                            disabled={isFirstStep}
                         >
-                            Rentrer à l'étape précédente
+                            Étape précédente
                         </button>
                         <button
-                            className={`border rounded-md p-2 hover:bg-gray-100 focus:bg-gray-100 ${isFirstStep ? " mx-auto" : ""} ${isLastStep ? "hidden" : ""}`}
+                            className={`border rounded-md p-2 hover:bg-gray-100 focus:bg-gray-100 ${isFirstStep ? "mx-auto" : ""} ${isLastStep ? "hidden" : ""}`}
                             onClick={goToNextStep}
-                            disabled={false}
                         >
-                            {currentStep === steps.length - 1 ? "Confirmer son inscription" : "Passer à l'étape suivante"}
+                            {isLastStep ? "Confirmer son inscription" : "Étape suivante"}
                         </button>
                     </div>
                 </div>
