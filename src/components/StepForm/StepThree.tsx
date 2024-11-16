@@ -1,4 +1,4 @@
-function StepThree() {
+function StepThree({ }) {
     return (
         <form className="flex flex-col gap-5 px-5 py-5 md:flex-row md:justify-between">
             <label htmlFor="phone" className="md:w-[300px]">

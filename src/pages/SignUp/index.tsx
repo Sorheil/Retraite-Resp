@@ -10,13 +10,17 @@ import StepThree from "../../components/StepForm/StepThree";
 import Step from "../../components/Step";
 
 function SignUp() {
+    // local state
+    const [currentStep, setCurrentStep] = useState(1);
+    const [userData, setUserData] = useState({ name: '', prename: '', city: '', group: '', number: '', phone: '' });
+
+    //prepare data
     const steps = [
-        { step: 1, description: "Nom et Prénom", component: <StepOne /> },
-        { step: 2, description: "Adresse", component: <StepTwo /> },
+        { step: 1, description: "Nom et Prénom", component: <StepOne value={userData} setValue={setUserData} /> },
+        { step: 2, description: "Adresse", component: <StepTwo value={userData} setValue={setUserData} /> },
         { step: 3, description: "Numéro de téléphone", component: <StepThree /> }
     ];
 
-    const [currentStep, setCurrentStep] = useState(1);
     const isFirstStep = currentStep === 1;
     const isLastStep = currentStep === steps.length;
 
@@ -68,6 +72,7 @@ function SignUp() {
                         >
                             Étape précédente
                         </button>
+
                         <button
                             className={`border rounded-md p-2 hover:bg-gray-100 focus:bg-gray-100 ${isFirstStep ? "mx-auto" : ""} ${isLastStep ? "hidden" : ""}`}
                             onClick={goToNextStep}
